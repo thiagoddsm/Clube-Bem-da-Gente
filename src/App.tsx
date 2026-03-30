@@ -453,6 +453,14 @@ const LoginPage = ({
             Ao continuar, você concorda com nossos <br/>
             <a href="#" className="text-primary hover:underline">Termos de Serviço</a> e <a href="#" className="text-primary hover:underline">Política de Privacidade</a>.
           </p>
+          <div className="mt-6">
+            <button 
+              onClick={() => window.location.hash = '#/admin'}
+              className="text-[10px] text-slate-300 hover:text-slate-500 transition-colors"
+            >
+              Acesso Restrito
+            </button>
+          </div>
         </div>
       </motion.div>
     </div>
@@ -786,7 +794,7 @@ const NotificationBell = ({ setError }: { setError: (msg: string | null) => void
   );
 };
 
-const ProfilePage = ({ profile, setProfile, setError, setSuccess }: { profile: UserProfile | null, setProfile: (p: UserProfile | null) => void, setError: (m: string | null) => void, setSuccess: (m: string | null) => void }) => {
+const ProfilePage = ({ profile, setProfile, setError, setSuccess, partners, toggleFavorite }: { profile: UserProfile | null, setProfile: (p: UserProfile | null) => void, setError: (m: string | null) => void, setSuccess: (m: string | null) => void, partners: (Partner & { id: string })[], toggleFavorite: (id: string) => void }) => {
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
@@ -884,6 +892,36 @@ const ProfilePage = ({ profile, setProfile, setError, setSuccess }: { profile: U
             </div>
           ))}
         </div>
+
+        {profile.favoritos && profile.favoritos.length > 0 && (
+          <div className="pt-6 border-t border-black/5">
+            <h4 className="text-sm font-black text-slate-900 mb-4 uppercase tracking-widest flex items-center gap-2">
+              <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" /> Meus Favoritos
+            </h4>
+            <div className="space-y-3">
+              {profile.favoritos.map(favId => {
+                const partner = partners.find(p => p.id === favId);
+                if (!partner) return null;
+                return (
+                  <div key={favId} className="bg-white border border-black/5 p-4 rounded-2xl shadow-sm flex justify-between items-center group">
+                    <div>
+                      <h5 className="font-bold text-slate-900 text-sm">{partner.nome}</h5>
+                      <p className="text-[10px] text-slate-500 mt-1 flex items-center gap-1">
+                        <MapPin className="w-3 h-3" /> {partner.endereco || 'Endereço não informado'}
+                      </p>
+                    </div>
+                    <button 
+                      onClick={() => toggleFavorite(favId)}
+                      className="p-2 hover:bg-slate-50 rounded-full transition-colors"
+                    >
+                      <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         <button 
           onClick={() => logout()}
@@ -3150,6 +3188,25 @@ export default function App() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const toggleFavorite = async (partnerId: string) => {
+    if (!user || !profile) return;
+    const currentFavorites = profile.favoritos || [];
+    const isFavorite = currentFavorites.includes(partnerId);
+    const newFavorites = isFavorite 
+      ? currentFavorites.filter(id => id !== partnerId)
+      : [...currentFavorites, partnerId];
+    
+    try {
+      await updateDoc(doc(db, 'users', user.uid), {
+        favoritos: newFavorites
+      });
+      setProfile({ ...profile, favoritos: newFavorites });
+    } catch (err) {
+      console.error("Error toggling favorite:", err);
+      setParsedError(err);
+    }
+  };
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
@@ -3502,8 +3559,14 @@ export default function App() {
       console.error("First access error:", err);
       if (err.code === 'auth/operation-not-allowed') {
         setError("O cadastro de novos usuários não está habilitado no Firebase Console. Por favor, habilite o provedor 'E-mail/Senha' em Authentication > Sign-in method.");
+      } else if (err.code === 'auth/weak-password') {
+        setError("A senha deve ter pelo menos 6 caracteres.");
+      } else if (err.code === 'auth/email-already-in-use') {
+        setError("Este e-mail ou CPF já está cadastrado.");
+      } else if (err.code === 'auth/invalid-email') {
+        setError("O e-mail fornecido é inválido.");
       } else {
-        setParsedError(err.message);
+        setParsedError(err.message || "Ocorreu um erro ao cadastrar a senha. Tente novamente.");
       }
       setLoading(false);
     }
@@ -3532,8 +3595,8 @@ export default function App() {
     );
   }
 
-  const isAdminRoute = location.hash.startsWith('#/admin');
-  console.log("DEBUG: user=", user, "location.pathname=", location.pathname, "location.hash=", location.hash, "isAdminRoute=", isAdminRoute);
+  console.log("DEBUG: user=", user, "location=", location);
+  const isAdminRoute = location.pathname.includes('/admin') || location.hash.includes('/admin');
   
   if (!user && !isAdminRoute) {
     return <LoginPage 
@@ -3732,7 +3795,18 @@ export default function App() {
                         <div key={p.id} className="bg-white border border-black/5 p-5 rounded-3xl shadow-sm hover:shadow-md transition-all group">
                           <div className="flex justify-between items-start gap-4">
                             <div className="flex-1">
-                              <h5 className="font-bold text-slate-900 group-hover:text-primary transition-colors">{p.nome}</h5>
+                              <div className="flex justify-between items-start">
+                                <h5 className="font-bold text-slate-900 group-hover:text-primary transition-colors">{p.nome}</h5>
+                                <button 
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    toggleFavorite(p.id);
+                                  }}
+                                  className="p-2 -mr-2 -mt-2 hover:bg-slate-50 rounded-full transition-colors"
+                                >
+                                  <Star className={`w-5 h-5 transition-colors ${profile?.favoritos?.includes(p.id) ? 'fill-yellow-400 text-yellow-400' : 'text-slate-300'}`} />
+                                </button>
+                              </div>
                               <p className="text-xs text-slate-500 mt-1 flex items-center gap-1">
                                 <MapPin className="w-3 h-3" /> {p.endereco || 'Endereço não informado'}
                               </p>
@@ -3992,7 +4066,7 @@ export default function App() {
           } />
           <Route path="/admin/chats" element={(auth.currentUser && auth.currentUser.providerData.some(p => p.providerId === 'google.com') && profile?.role === 'admin') ? <AdminChatList setError={setError} /> : <ErrorDisplay message="Você não tem permissão para acessar esta área." />} />
           <Route path="/admin/chats/:id" element={(auth.currentUser && auth.currentUser.providerData.some(p => p.providerId === 'google.com') && profile?.role === 'admin') ? <AdminChatRoom setError={setError} /> : <ErrorDisplay message="Você não tem permissão para acessar esta área." />} />
-          <Route path="/perfil" element={<ProfilePage profile={profile} setProfile={setProfile} setError={setError} setSuccess={setSuccess} />} />
+          <Route path="/perfil" element={<ProfilePage profile={profile} setProfile={setProfile} setError={setError} setSuccess={setSuccess} partners={partners} toggleFavorite={toggleFavorite} />} />
 
           <Route path="/telemed" element={
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-8 pb-20">

@@ -11,6 +11,7 @@ export interface UserProfile {
   telefone?: string;
   data_nascimento?: string;
   adimplente?: boolean;
+  favoritos?: string[];
 }
 
 export interface PreRegistration {
