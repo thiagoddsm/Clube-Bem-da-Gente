@@ -7,7 +7,8 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 async function startServer() {
   const app = express();
-  const PORT = 3000;
+  // Altere esta linha para ler a porta do ambiente ou usar 8080 como padrão
+  const PORT = parseInt(process.env.PORT || '8080', 10);
 
   app.use(express.json());
 
@@ -33,8 +34,9 @@ async function startServer() {
     });
   }
 
+  // Altere aqui para usar a variável PORT dinâmica
   app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+    console.log(`Server running on http://0.0.0.0:${PORT}`);
   });
 }
 
