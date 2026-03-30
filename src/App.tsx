@@ -3532,7 +3532,7 @@ export default function App() {
     );
   }
 
-  if (!user) {
+  if (!user && !location.pathname.startsWith('/admin')) {
     return <LoginPage 
       onLogin={handleLogin} 
       onLoginWithCPF={handleLoginWithCPF}
@@ -3965,29 +3965,30 @@ export default function App() {
           <Route path="/chat" element={<SupportChat profile={profile} setError={setError} />} />
           <Route path="/notificacoes" element={<NotificationCenter setError={setError} />} />
           <Route path="/admin" element={
-            !auth.currentUser ? <AdminLoginPage onLogin={loginWithGoogle} /> : (
-              profile?.role === 'admin' ? (
-                <AdminDashboard 
-                  setError={setError} 
-                  setParsedError={setParsedError}
-                  setSuccess={setSuccess} 
-                  users={users}
-                  preRegs={preRegs}
-                  loading={loading}
-                  setLoading={setLoading}
-                  companies={companies}
-                  partners={partners}
-                  profile={profile}
-                  config={config}
-                  setConfig={setConfig}
-                />
-              ) : (
-                <ErrorDisplay message="Você não tem permissão para acessar esta área." />
-              )
+            (auth.currentUser && auth.currentUser.providerData.some(p => p.providerId === 'google.com') && profile?.role === 'admin') ? (
+              <AdminDashboard 
+                setError={setError} 
+                setParsedError={setParsedError}
+                setSuccess={setSuccess} 
+                users={users}
+                preRegs={preRegs}
+                loading={loading}
+                setLoading={setLoading}
+                companies={companies}
+                partners={partners}
+                profile={profile}
+                config={config}
+                setConfig={setConfig}
+              />
+            ) : (
+              <AdminLoginPage onLogin={async () => {
+                if (auth.currentUser) await logout();
+                await loginWithGoogle();
+              }} />
             )
           } />
-          <Route path="/admin/chats" element={profile?.role === 'admin' ? <AdminChatList setError={setError} /> : <ErrorDisplay message="Você não tem permissão para acessar esta área." />} />
-          <Route path="/admin/chats/:id" element={profile?.role === 'admin' ? <AdminChatRoom setError={setError} /> : <ErrorDisplay message="Você não tem permissão para acessar esta área." />} />
+          <Route path="/admin/chats" element={(auth.currentUser && auth.currentUser.providerData.some(p => p.providerId === 'google.com') && profile?.role === 'admin') ? <AdminChatList setError={setError} /> : <ErrorDisplay message="Você não tem permissão para acessar esta área." />} />
+          <Route path="/admin/chats/:id" element={(auth.currentUser && auth.currentUser.providerData.some(p => p.providerId === 'google.com') && profile?.role === 'admin') ? <AdminChatRoom setError={setError} /> : <ErrorDisplay message="Você não tem permissão para acessar esta área." />} />
           <Route path="/perfil" element={<ProfilePage profile={profile} setProfile={setProfile} setError={setError} setSuccess={setSuccess} />} />
 
           <Route path="/telemed" element={
