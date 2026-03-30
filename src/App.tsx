@@ -1023,12 +1023,12 @@ const AdminChatList = ({ setError }: { setError: (msg: string | null) => void })
       {/* Delete Confirmation Modal */}
       <AnimatePresence>
         {showDeleteConfirm && (
-          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[70] flex items-center justify-center p-6">
+          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[70] flex items-center justify-center p-4 sm:p-6">
             <motion.div 
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
-              className="bg-white p-8 rounded-[2.5rem] w-full max-w-sm space-y-6 text-center"
+              className="bg-white p-6 sm:p-8 rounded-[2.5rem] w-full max-w-sm space-y-6 text-center max-h-[90vh] overflow-y-auto no-scrollbar"
             >
               <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto">
                 <Trash2 className="w-8 h-8 text-red-600" />
@@ -1750,23 +1750,23 @@ const AdminDashboard = ({
 
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 pb-12">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <button onClick={() => navigate('/')} className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-600">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="flex items-center gap-4 w-full sm:w-auto">
+          <button onClick={() => navigate('/')} className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-600 shrink-0">
             <ChevronRight className="w-6 h-6 rotate-180" />
           </button>
-          <h2 className="text-2xl font-bold text-slate-900">Painel Administrativo</h2>
+          <h2 className="text-xl sm:text-2xl font-bold text-slate-900 truncate">Painel Administrativo</h2>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 w-full sm:w-auto overflow-x-auto no-scrollbar pb-1 sm:pb-0">
           <button 
             onClick={() => exportToCSV(usersList, 'usuarios')}
-            className="bg-slate-100 text-slate-600 px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 hover:bg-slate-200 transition-all shadow-sm"
+            className="bg-slate-100 text-slate-600 px-4 py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-2 hover:bg-slate-200 transition-all shadow-sm whitespace-nowrap flex-1 sm:flex-none"
           >
             <Download className="w-4 h-4" /> Exportar
           </button>
           <button 
             onClick={() => navigate('/admin/chats')}
-            className="bg-primary/10 text-primary px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 hover:bg-primary/20 transition-all shadow-sm"
+            className="bg-primary/10 text-primary px-4 py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-2 hover:bg-primary/20 transition-all shadow-sm whitespace-nowrap flex-1 sm:flex-none"
           >
             <MessageCircle className="w-4 h-4" /> Chats
           </button>
@@ -1803,37 +1803,37 @@ const AdminDashboard = ({
       <div className="flex gap-2 p-1 bg-white rounded-2xl border border-black/5 shadow-sm overflow-x-auto no-scrollbar">
         <button
           onClick={() => setActiveTab('dashboard')}
-          className={`min-w-[80px] flex-1 py-2.5 rounded-xl text-[10px] font-bold flex items-center justify-center gap-1.5 transition-all ${activeTab === 'dashboard' ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'}`}
+          className={`min-w-[80px] whitespace-nowrap flex-1 py-2.5 px-3 rounded-xl text-[10px] font-bold flex items-center justify-center gap-1.5 transition-all ${activeTab === 'dashboard' ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'}`}
         >
           <TrendingUp className="w-3.5 h-3.5" /> Dashboard
         </button>
         <button
           onClick={() => setActiveTab('usuarios')}
-          className={`min-w-[80px] flex-1 py-2.5 rounded-xl text-[10px] font-bold flex items-center justify-center gap-1.5 transition-all ${activeTab === 'usuarios' ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'}`}
+          className={`min-w-[80px] whitespace-nowrap flex-1 py-2.5 px-3 rounded-xl text-[10px] font-bold flex items-center justify-center gap-1.5 transition-all ${activeTab === 'usuarios' ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'}`}
         >
           <Users className="w-3.5 h-3.5" /> Usuários {pendingCount > 0 && <span className="bg-tertiary text-white px-1 py-0 rounded-full text-[8px]">{pendingCount}</span>}
         </button>
         <button
           onClick={() => setActiveTab('parceiros')}
-          className={`min-w-[80px] flex-1 py-2.5 rounded-xl text-[10px] font-bold flex items-center justify-center gap-1.5 transition-all ${activeTab === 'parceiros' ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'}`}
+          className={`min-w-[80px] whitespace-nowrap flex-1 py-2.5 px-3 rounded-xl text-[10px] font-bold flex items-center justify-center gap-1.5 transition-all ${activeTab === 'parceiros' ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'}`}
         >
           <Building2 className="w-3.5 h-3.5" /> Parceiros
         </button>
         <button
           onClick={() => setActiveTab('empresas')}
-          className={`min-w-[80px] flex-1 py-2.5 rounded-xl text-[10px] font-bold flex items-center justify-center gap-1.5 transition-all ${activeTab === 'empresas' ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'}`}
+          className={`min-w-[80px] whitespace-nowrap flex-1 py-2.5 px-3 rounded-xl text-[10px] font-bold flex items-center justify-center gap-1.5 transition-all ${activeTab === 'empresas' ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'}`}
         >
           <Building className="w-3.5 h-3.5" /> Empresas
         </button>
         <button
           onClick={() => setActiveTab('configuracoes')}
-          className={`min-w-[80px] flex-1 py-2.5 rounded-xl text-[10px] font-bold flex items-center justify-center gap-1.5 transition-all ${activeTab === 'configuracoes' ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'}`}
+          className={`min-w-[80px] whitespace-nowrap flex-1 py-2.5 px-3 rounded-xl text-[10px] font-bold flex items-center justify-center gap-1.5 transition-all ${activeTab === 'configuracoes' ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'}`}
         >
           <Settings className="w-3.5 h-3.5" /> Config.
         </button>
         <button
           onClick={() => setActiveTab('financeiro')}
-          className={`min-w-[80px] flex-1 py-2.5 rounded-xl text-[10px] font-bold flex items-center justify-center gap-1.5 transition-all ${activeTab === 'financeiro' ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'}`}
+          className={`min-w-[80px] whitespace-nowrap flex-1 py-2.5 px-3 rounded-xl text-[10px] font-bold flex items-center justify-center gap-1.5 transition-all ${activeTab === 'financeiro' ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'}`}
         >
           <CreditCard className="w-3.5 h-3.5" /> Financeiro
         </button>
@@ -1841,7 +1841,7 @@ const AdminDashboard = ({
 
       {activeTab === 'dashboard' && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="bg-white p-6 rounded-[2rem] border border-black/5 shadow-sm space-y-4">
+          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="bg-white p-6 rounded-[2rem] border border-black/5 shadow-sm space-y-4 min-w-0">
             <h3 className="text-sm font-bold text-slate-900 uppercase tracking-widest">Usuários por Status</h3>
             <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
@@ -1874,7 +1874,7 @@ const AdminDashboard = ({
             </div>
           </motion.div>
 
-          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 }} className="bg-white p-6 rounded-[2rem] border border-black/5 shadow-sm space-y-4">
+          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 }} className="bg-white p-6 rounded-[2rem] border border-black/5 shadow-sm space-y-4 min-w-0">
             <h3 className="text-sm font-bold text-slate-900 uppercase tracking-widest">Usuários por Empresa</h3>
             <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
@@ -1912,7 +1912,7 @@ const AdminDashboard = ({
                 <button
                   key={f}
                   onClick={() => setFilter(f)}
-                  className={`flex-1 min-w-[80px] py-2 px-4 rounded-xl text-xs font-bold capitalize transition-all ${filter === f ? 'bg-primary/10 text-primary' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'}`}
+                  className={`flex-1 min-w-[80px] whitespace-nowrap py-2 px-4 rounded-xl text-xs font-bold capitalize transition-all ${filter === f ? 'bg-primary/10 text-primary' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'}`}
                 >
                   {f}
                 </button>
@@ -1931,14 +1931,14 @@ const AdminDashboard = ({
           </div>
 
           <div className="bg-white border border-black/5 rounded-[2rem] overflow-hidden shadow-sm">
-            <div className="p-6 border-b border-black/5 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div className="p-6 border-b border-black/5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <h3 className="font-bold text-slate-900">Gerenciar Beneficiários</h3>
-              <div className="flex flex-wrap justify-center gap-2">
+              <div className="flex flex-wrap justify-start sm:justify-center gap-2 w-full sm:w-auto">
                 <button 
                   onClick={downloadTemplate}
-                  className="bg-slate-100 text-slate-600 px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 hover:bg-slate-200 transition-all shadow-sm"
+                  className="bg-slate-100 text-slate-600 px-4 py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-2 hover:bg-slate-200 transition-all shadow-sm flex-1 sm:flex-none whitespace-nowrap"
                 >
-                  <Download className="w-4 h-4" /> Baixar Planilha Modelo
+                  <Download className="w-4 h-4" /> Modelo
                 </button>
                 <input 
                   type="file" 
@@ -1950,15 +1950,15 @@ const AdminDashboard = ({
                 <button 
                   onClick={() => fileInputRef.current?.click()}
                   disabled={uploading}
-                  className="bg-slate-100 text-slate-600 px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 hover:bg-slate-200 transition-all shadow-sm disabled:opacity-50"
+                  className="bg-slate-100 text-slate-600 px-4 py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-2 hover:bg-slate-200 transition-all shadow-sm disabled:opacity-50 flex-1 sm:flex-none whitespace-nowrap"
                 >
                   {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <FileSpreadsheet className="w-4 h-4" />} Importar
                 </button>
                 <button 
                   onClick={() => setShowAddModal(true)}
-                  className="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 transition-all shadow-lg shadow-primary/20"
+                  className="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-all shadow-lg shadow-primary/20 flex-1 sm:flex-none whitespace-nowrap"
                 >
-                  <UserPlus className="w-4 h-4" /> Novo Usuário
+                  <UserPlus className="w-4 h-4" /> Novo
                 </button>
               </div>
             </div>
@@ -1968,15 +1968,15 @@ const AdminDashboard = ({
                 <div className="p-12 text-center text-slate-400">Carregando usuários...</div>
               ) : filteredUsers.map((u) => (
                 <div key={u.id} className="p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-slate-50 transition-colors">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-full bg-slate-100 border border-black/5 overflow-hidden flex items-center justify-center">
+                  <div className="flex items-center gap-4 min-w-0">
+                    <div className="w-12 h-12 rounded-full bg-slate-100 border border-black/5 overflow-hidden flex items-center justify-center shrink-0">
                       {u.foto_url ? <img src={u.foto_url} className="w-full h-full object-cover" referrerPolicy="no-referrer" /> : <Users className="w-6 h-6 text-slate-400" />}
                     </div>
-                    <div>
-                      <p className="font-bold text-slate-900">{u.nome}</p>
-                      <p className="text-xs text-slate-500">{u.email || 'Sem e-mail'} • {u.matricula}</p>
-                      <p className="text-[10px] text-slate-400 font-mono mt-0.5">CPF: {u.cpf} {u.telefone && `• Tel: ${u.telefone}`}</p>
-                      <div className="flex items-center gap-2 mt-1">
+                    <div className="min-w-0">
+                      <p className="font-bold text-slate-900 truncate">{u.nome}</p>
+                      <p className="text-xs text-slate-500 truncate">{u.email || 'Sem e-mail'} • {u.matricula}</p>
+                      <p className="text-[10px] text-slate-400 font-mono mt-0.5 truncate">CPF: {u.cpf} {u.telefone && `• Tel: ${u.telefone}`}</p>
+                      <div className="flex flex-wrap items-center gap-2 mt-1">
                         <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-full ${
                           u.status === 'ativo' ? 'bg-emerald-100 text-emerald-600' : 
                           u.status === 'pendente' ? 'bg-orange-100 text-orange-600' : 
@@ -1993,7 +1993,7 @@ const AdminDashboard = ({
                     </div>
                   </div>
                   
-                  <div className="flex items-center gap-2">
+                  <div className="flex flex-wrap items-center gap-2">
                     <button 
                       onClick={() => toggleAdimplencia(u)}
                       className={`p-2 rounded-xl transition-all ${u.adimplente === false ? 'bg-orange-100 text-orange-600' : 'bg-emerald-100 text-emerald-600'}`}
@@ -2032,9 +2032,9 @@ const AdminDashboard = ({
 
       {activeTab === 'parceiros' && (
         <div className="space-y-6">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <h3 className="text-xl font-bold text-slate-900">Gerenciar Parceiros</h3>
-            <div className="flex items-center gap-3 w-full md:w-auto">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full md:w-auto">
               <div className="flex-1 relative md:w-64">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                 <input 
@@ -2047,7 +2047,7 @@ const AdminDashboard = ({
               </div>
               <button 
                 onClick={() => setShowAddPartnerModal(true)}
-                className="bg-primary text-white px-6 py-3 rounded-2xl text-sm font-bold flex items-center gap-2 hover:bg-primary-dark transition-all shadow-lg shadow-primary/20 whitespace-nowrap"
+                className="bg-primary text-white px-6 py-3 rounded-2xl text-sm font-bold flex items-center justify-center gap-2 hover:bg-primary-dark transition-all shadow-lg shadow-primary/20 whitespace-nowrap"
               >
                 <Plus className="w-4 h-4" /> Novo Parceiro
               </button>
@@ -2061,9 +2061,9 @@ const AdminDashboard = ({
                   <div className="w-12 h-12 bg-slate-100 rounded-2xl overflow-hidden flex items-center justify-center">
                     {p.foto_url ? <img src={p.foto_url} alt={p.nome} className="w-full h-full object-cover" referrerPolicy="no-referrer" /> : <Building2 className="w-6 h-6 text-slate-400" />}
                   </div>
-                  <div>
-                    <h4 className="font-bold text-slate-900">{p.nome}</h4>
-                    <p className="text-[10px] text-slate-400 uppercase font-black tracking-widest">{p.categoria}</p>
+                  <div className="min-w-0 flex-1">
+                    <h4 className="font-bold text-slate-900 truncate">{p.nome}</h4>
+                    <p className="text-[10px] text-slate-400 uppercase font-black tracking-widest truncate">{p.categoria}</p>
                   </div>
                 </div>
                 <div className="space-y-2 text-sm text-slate-600">
@@ -2091,11 +2091,11 @@ const AdminDashboard = ({
 
       {activeTab === 'empresas' && (
         <div className="space-y-6">
-          <div className="flex justify-between items-center">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <h3 className="text-xl font-bold text-slate-900">Gerenciar Empresas</h3>
             <button 
               onClick={() => setShowAddCompanyModal(true)}
-              className="bg-primary text-white px-6 py-3 rounded-2xl text-sm font-bold flex items-center gap-2 hover:bg-primary-dark transition-all shadow-lg shadow-primary/20"
+              className="w-full sm:w-auto bg-primary text-white px-6 py-3 rounded-2xl text-sm font-bold flex items-center justify-center gap-2 hover:bg-primary-dark transition-all shadow-lg shadow-primary/20"
             >
               <Plus className="w-4 h-4" /> Nova Empresa
             </button>
@@ -2109,17 +2109,17 @@ const AdminDashboard = ({
                 animate={{ opacity: 1, scale: 1 }}
                 className="bg-white p-6 rounded-[2rem] border border-black/5 shadow-sm space-y-4"
               >
-                <div className="flex justify-between items-start">
-                  <div className="space-y-1">
-                    <h4 className="font-bold text-slate-900">{company.nome}</h4>
-                    {company.cnpj && <p className="text-[10px] text-slate-500 font-mono">CNPJ: {company.cnpj}</p>}
-                    {company.telefone && <p className="text-[10px] text-slate-500">Tel: {company.telefone}</p>}
-                    {company.email && <p className="text-[10px] text-slate-500">E-mail: {company.email}</p>}
-                    <p className="text-[10px] text-slate-400 uppercase font-bold mt-2">
+                <div className="flex justify-between items-start gap-4">
+                  <div className="space-y-1 min-w-0 flex-1">
+                    <h4 className="font-bold text-slate-900 truncate">{company.nome}</h4>
+                    {company.cnpj && <p className="text-[10px] text-slate-500 font-mono truncate">CNPJ: {company.cnpj}</p>}
+                    {company.telefone && <p className="text-[10px] text-slate-500 truncate">Tel: {company.telefone}</p>}
+                    {company.email && <p className="text-[10px] text-slate-500 truncate">E-mail: {company.email}</p>}
+                    <p className="text-[10px] text-slate-400 uppercase font-bold mt-2 truncate">
                       {users.filter(u => u.empresa === company.nome).length} Funcionários
                     </p>
                   </div>
-                  <div className="flex gap-1">
+                  <div className="flex gap-1 shrink-0">
                     <button 
                       onClick={() => {
                         setEditingCompany(company);
@@ -2179,8 +2179,8 @@ const AdminDashboard = ({
                 </h4>
                 <div className="space-y-2 max-h-60 overflow-y-auto pr-2 no-scrollbar">
                   {config.especialidades.map((esp, i) => (
-                    <div key={i} className="flex items-center justify-between p-3 bg-slate-50 rounded-xl group">
-                      <span className="text-sm text-slate-700 font-medium">{esp}</span>
+                    <div key={i} className="flex items-center justify-between p-3 bg-slate-50 rounded-xl group gap-2">
+                      <span className="text-sm text-slate-700 font-medium truncate min-w-0 flex-1">{esp}</span>
                       <button 
                         onClick={() => {
                           const newList = config.especialidades.filter((_, idx) => idx !== i);
@@ -2220,8 +2220,8 @@ const AdminDashboard = ({
                 </h4>
                 <div className="space-y-2 max-h-60 overflow-y-auto pr-2 no-scrollbar">
                   {config.exames.map((ex, i) => (
-                    <div key={i} className="flex items-center justify-between p-3 bg-slate-50 rounded-xl group">
-                      <span className="text-sm text-slate-700 font-medium">{ex}</span>
+                    <div key={i} className="flex items-center justify-between p-3 bg-slate-50 rounded-xl group gap-2">
+                      <span className="text-sm text-slate-700 font-medium truncate min-w-0 flex-1">{ex}</span>
                       <button 
                         onClick={() => {
                           const newList = config.exames.filter((_, idx) => idx !== i);
@@ -2261,8 +2261,8 @@ const AdminDashboard = ({
                 </h4>
                 <div className="space-y-2 max-h-60 overflow-y-auto pr-2 no-scrollbar">
                   {config.categorias.map((cat, i) => (
-                    <div key={i} className="flex items-center justify-between p-3 bg-slate-50 rounded-xl group">
-                      <span className="text-sm text-slate-700 font-medium">{cat}</span>
+                    <div key={i} className="flex items-center justify-between p-3 bg-slate-50 rounded-xl group gap-2">
+                      <span className="text-sm text-slate-700 font-medium truncate min-w-0 flex-1">{cat}</span>
                       <button 
                         onClick={() => {
                           const newList = config.categorias.filter((_, idx) => idx !== i);
@@ -2332,12 +2332,12 @@ const AdminDashboard = ({
                   { id: 1, desc: 'Pagamento Empresa Teste', date: '27/03/2026', valor: 'R$ 1.500,00', status: 'Pago' },
                   { id: 2, desc: 'Pagamento Igreja', date: '26/03/2026', valor: 'R$ 2.000,00', status: 'Pendente' },
                 ].map((t) => (
-                  <div key={t.id} className="flex items-center justify-between p-4 bg-slate-50 rounded-xl">
-                    <div>
-                      <p className="font-bold text-slate-900 text-sm">{t.desc}</p>
-                      <p className="text-[10px] text-slate-400">{t.date}</p>
+                  <div key={t.id} className="flex items-center justify-between p-4 bg-slate-50 rounded-xl gap-4">
+                    <div className="min-w-0 flex-1">
+                      <p className="font-bold text-slate-900 text-sm truncate">{t.desc}</p>
+                      <p className="text-[10px] text-slate-400 truncate">{t.date}</p>
                     </div>
-                    <div className="text-right">
+                    <div className="text-right shrink-0">
                       <p className="font-bold text-slate-900 text-sm">{t.valor}</p>
                       <p className={`text-[10px] font-bold ${t.status === 'Pago' ? 'text-emerald-500' : 'text-amber-500'}`}>{t.status}</p>
                     </div>
@@ -2346,13 +2346,13 @@ const AdminDashboard = ({
               </div>
             </div>
 
-            <div className="flex justify-end gap-4">
-              <button className="px-6 py-3 rounded-2xl text-sm font-bold text-slate-500 hover:bg-slate-100 transition-all">
+            <div className="flex flex-col sm:flex-row justify-end gap-4">
+              <button className="w-full sm:w-auto px-6 py-3 rounded-2xl text-sm font-bold text-slate-500 hover:bg-slate-100 transition-all">
                 Exportar Relatório
               </button>
               <button 
                 onClick={() => console.log('Processar pagamento')}
-                className="bg-primary text-white px-6 py-3 rounded-2xl text-sm font-bold flex items-center gap-2 hover:bg-primary-dark transition-all shadow-lg shadow-primary/20"
+                className="w-full sm:w-auto bg-primary text-white px-6 py-3 rounded-2xl text-sm font-bold flex items-center justify-center gap-2 hover:bg-primary-dark transition-all shadow-lg shadow-primary/20"
               >
                 <CreditCard className="w-4 h-4" /> Processar Pagamento
               </button>
@@ -2364,12 +2364,12 @@ const AdminDashboard = ({
       {/* Add User Modal */}
       <AnimatePresence>
         {showAddModal && (
-          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] flex items-center justify-center p-6">
+          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] flex items-center justify-center p-4 sm:p-6">
             <motion.div 
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
-              className="bg-slate-900 border border-white/10 p-8 rounded-[2.5rem] w-full max-w-md space-y-6"
+              className="bg-slate-900 border border-white/10 p-6 sm:p-8 rounded-[2.5rem] w-full max-w-md space-y-6 max-h-[90vh] overflow-y-auto no-scrollbar"
             >
               <div className="flex justify-between items-center">
                 <h3 className="text-xl font-bold text-white">Novo Beneficiário</h3>
@@ -2388,7 +2388,7 @@ const AdminDashboard = ({
                     placeholder="Ex: João Silva"
                   />
                 </div>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <label className="text-[10px] text-slate-500 uppercase font-bold ml-2">CPF *</label>
                     <input 
@@ -2448,12 +2448,12 @@ const AdminDashboard = ({
       {/* Edit User Modal */}
       <AnimatePresence>
         {showEditModal && editingUser && (
-          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] flex items-center justify-center p-6">
+          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] flex items-center justify-center p-4 sm:p-6">
             <motion.div 
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
-              className="bg-slate-900 border border-white/10 p-8 rounded-[2.5rem] w-full max-w-md space-y-6"
+              className="bg-slate-900 border border-white/10 p-6 sm:p-8 rounded-[2.5rem] w-full max-w-md space-y-6 max-h-[90vh] overflow-y-auto no-scrollbar"
             >
               <div className="flex justify-between items-center">
                 <h3 className="text-xl font-bold text-white">Editar Beneficiário</h3>
@@ -2471,7 +2471,7 @@ const AdminDashboard = ({
                     className="w-full bg-slate-800 border border-white/5 rounded-2xl p-4 text-white focus:outline-none focus:border-emerald-500/50 transition-all"
                   />
                 </div>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <label className="text-[10px] text-slate-500 uppercase font-bold ml-2">CPF *</label>
                     <input 
@@ -2490,7 +2490,7 @@ const AdminDashboard = ({
                     />
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <label className="text-[10px] text-slate-500 uppercase font-bold ml-2">E-mail</label>
                     <input 
@@ -2510,7 +2510,7 @@ const AdminDashboard = ({
                     />
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <label className="text-[10px] text-slate-500 uppercase font-bold ml-2">Matrícula</label>
                     <input 
@@ -2560,12 +2560,12 @@ const AdminDashboard = ({
       {/* Add Partner Modal */}
       <AnimatePresence>
         {showAddPartnerModal && (
-          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] flex items-center justify-center p-6">
+          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] flex items-center justify-center p-4 sm:p-6">
             <motion.div 
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
-              className="bg-white p-8 rounded-[2.5rem] w-full max-w-md space-y-6 max-h-[90vh] overflow-y-auto"
+              className="bg-white p-6 sm:p-8 rounded-[2.5rem] w-full max-w-md space-y-6 max-h-[90vh] overflow-y-auto no-scrollbar"
             >
               <div className="flex justify-between items-center">
                 <h3 className="text-xl font-bold text-slate-900">Novo Parceiro</h3>
@@ -2614,7 +2614,7 @@ const AdminDashboard = ({
                     className="w-full bg-slate-50 border border-black/5 rounded-2xl p-4 text-slate-900 focus:outline-none focus:border-primary/50 transition-all"
                   />
                 </div>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <label className="text-[10px] text-slate-500 uppercase font-bold ml-2">Tipo *</label>
                     <select
@@ -2701,12 +2701,12 @@ const AdminDashboard = ({
       {/* Add Company Modal */}
       <AnimatePresence>
         {showAddCompanyModal && (
-          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] flex items-center justify-center p-6">
+          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] flex items-center justify-center p-4 sm:p-6">
             <motion.div 
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
-              className="bg-white p-8 rounded-[2.5rem] w-full max-w-md space-y-6"
+              className="bg-white p-6 sm:p-8 rounded-[2.5rem] w-full max-w-md space-y-6 max-h-[90vh] overflow-y-auto no-scrollbar"
             >
               <div className="flex justify-between items-center">
                 <h3 className="text-xl font-bold text-slate-900">Nova Empresa</h3>
@@ -2734,7 +2734,7 @@ const AdminDashboard = ({
                     className="w-full bg-slate-50 border border-black/5 rounded-2xl p-4 text-slate-900 focus:outline-none focus:border-primary/50 transition-all"
                   />
                 </div>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <label className="text-[10px] text-slate-500 uppercase font-bold ml-2">Telefone</label>
                     <input 
@@ -2770,12 +2770,12 @@ const AdminDashboard = ({
       {/* Edit Company Modal */}
       <AnimatePresence>
         {showEditCompanyModal && editingCompany && (
-          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] flex items-center justify-center p-6">
+          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] flex items-center justify-center p-4 sm:p-6">
             <motion.div 
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
-              className="bg-white p-8 rounded-[2.5rem] w-full max-w-md space-y-6"
+              className="bg-white p-6 sm:p-8 rounded-[2.5rem] w-full max-w-md space-y-6 max-h-[90vh] overflow-y-auto no-scrollbar"
             >
               <div className="flex justify-between items-center">
                 <h3 className="text-xl font-bold text-slate-900">Editar Empresa</h3>
@@ -2801,7 +2801,7 @@ const AdminDashboard = ({
                     className="w-full bg-slate-50 border border-black/5 rounded-2xl p-4 text-slate-900 focus:outline-none focus:border-primary/50 transition-all"
                   />
                 </div>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <label className="text-[10px] text-slate-500 uppercase font-bold ml-2">Telefone</label>
                     <input 
@@ -2835,12 +2835,12 @@ const AdminDashboard = ({
       {/* Edit Partner Modal */}
       <AnimatePresence>
         {showEditPartnerModal && editingPartner && (
-          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] flex items-center justify-center p-6">
+          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] flex items-center justify-center p-4 sm:p-6">
             <motion.div 
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
-              className="bg-white p-8 rounded-[2.5rem] w-full max-w-md space-y-6 max-h-[90vh] overflow-y-auto"
+              className="bg-white p-6 sm:p-8 rounded-[2.5rem] w-full max-w-md space-y-6 max-h-[90vh] overflow-y-auto no-scrollbar"
             >
               <div className="flex justify-between items-center">
                 <h3 className="text-xl font-bold text-slate-900">Editar Parceiro</h3>
@@ -2885,7 +2885,7 @@ const AdminDashboard = ({
                     className="w-full bg-slate-50 border border-black/5 rounded-2xl p-4 text-slate-900 focus:outline-none focus:border-primary/50 transition-all"
                   />
                 </div>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <label className="text-[10px] text-slate-500 uppercase font-bold ml-2">Tipo *</label>
                     <select
@@ -2971,12 +2971,12 @@ const AdminDashboard = ({
       {/* Delete Confirmation Modal */}
       <AnimatePresence>
         {showDeleteConfirm && userToDelete && (
-          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[70] flex items-center justify-center p-6">
+          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[70] flex items-center justify-center p-4 sm:p-6">
             <motion.div 
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
-              className="bg-white p-8 rounded-[2.5rem] w-full max-w-sm space-y-6 text-center"
+              className="bg-white p-6 sm:p-8 rounded-[2.5rem] w-full max-w-sm space-y-6 text-center max-h-[90vh] overflow-y-auto no-scrollbar"
             >
               <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto">
                 <Trash2 className="w-8 h-8 text-red-600" />
@@ -3010,12 +3010,12 @@ const AdminDashboard = ({
       {/* Partner Delete Confirmation Modal */}
       <AnimatePresence>
         {showPartnerDeleteConfirm && partnerToDelete && (
-          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[70] flex items-center justify-center p-6">
+          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[70] flex items-center justify-center p-4 sm:p-6">
             <motion.div 
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
-              className="bg-white p-8 rounded-[2.5rem] w-full max-w-sm space-y-6 text-center"
+              className="bg-white p-6 sm:p-8 rounded-[2.5rem] w-full max-w-sm space-y-6 text-center max-h-[90vh] overflow-y-auto no-scrollbar"
             >
               <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto">
                 <Trash2 className="w-8 h-8 text-red-600" />
@@ -3052,12 +3052,12 @@ const AdminDashboard = ({
       {/* Auth Confirmation Modal */}
       <AnimatePresence>
         {showAuthConfirm && (
-          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[70] flex items-center justify-center p-6">
+          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[70] flex items-center justify-center p-4 sm:p-6">
             <motion.div 
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
-              className="bg-white p-8 rounded-[2.5rem] w-full max-w-sm space-y-6 text-center"
+              className="bg-white p-6 sm:p-8 rounded-[2.5rem] w-full max-w-sm space-y-6 text-center max-h-[90vh] overflow-y-auto no-scrollbar"
             >
               <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
                 <UserCheck className="w-8 h-8 text-primary" />
@@ -3094,11 +3094,11 @@ const AdminDashboard = ({
       {/* Suspended Access Modal */}
       <AnimatePresence>
         {profile && profile.adimplente === false && (
-          <div className="fixed inset-0 bg-red-600 z-[100] flex items-center justify-center p-6">
+          <div className="fixed inset-0 bg-red-600 z-[100] flex items-center justify-center p-4 sm:p-6">
             <motion.div 
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="bg-white p-8 rounded-[2.5rem] w-full max-w-sm space-y-6 text-center"
+              className="bg-white p-6 sm:p-8 rounded-[2.5rem] w-full max-w-sm space-y-6 text-center max-h-[90vh] overflow-y-auto no-scrollbar"
             >
               <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto">
                 <AlertCircle className="w-8 h-8 text-red-600" />
@@ -4042,7 +4042,7 @@ export default function App() {
           <Route path="/chat" element={<SupportChat profile={profile} setError={setError} />} />
           <Route path="/notificacoes" element={<NotificationCenter setError={setError} />} />
           <Route path="/admin" element={
-            (auth.currentUser && auth.currentUser.providerData.some(p => p.providerId === 'google.com') && profile?.role === 'admin') ? (
+            (auth.currentUser && profile?.role === 'admin') ? (
               <AdminDashboard 
                 setError={setError} 
                 setParsedError={setParsedError}
@@ -4057,6 +4057,8 @@ export default function App() {
                 config={config}
                 setConfig={setConfig}
               />
+            ) : auth.currentUser ? (
+              <ErrorDisplay message="Você não tem permissão para acessar esta área." />
             ) : (
               <AdminLoginPage onLogin={async () => {
                 if (auth.currentUser) await logout();
@@ -4064,8 +4066,8 @@ export default function App() {
               }} />
             )
           } />
-          <Route path="/admin/chats" element={(auth.currentUser && auth.currentUser.providerData.some(p => p.providerId === 'google.com') && profile?.role === 'admin') ? <AdminChatList setError={setError} /> : <ErrorDisplay message="Você não tem permissão para acessar esta área." />} />
-          <Route path="/admin/chats/:id" element={(auth.currentUser && auth.currentUser.providerData.some(p => p.providerId === 'google.com') && profile?.role === 'admin') ? <AdminChatRoom setError={setError} /> : <ErrorDisplay message="Você não tem permissão para acessar esta área." />} />
+          <Route path="/admin/chats" element={(auth.currentUser && profile?.role === 'admin') ? <AdminChatList setError={setError} /> : <ErrorDisplay message="Você não tem permissão para acessar esta área." />} />
+          <Route path="/admin/chats/:id" element={(auth.currentUser && profile?.role === 'admin') ? <AdminChatRoom setError={setError} /> : <ErrorDisplay message="Você não tem permissão para acessar esta área." />} />
           <Route path="/perfil" element={<ProfilePage profile={profile} setProfile={setProfile} setError={setError} setSuccess={setSuccess} partners={partners} toggleFavorite={toggleFavorite} />} />
 
           <Route path="/telemed" element={
