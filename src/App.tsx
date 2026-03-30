@@ -3532,7 +3532,10 @@ export default function App() {
     );
   }
 
-  if (!user && !location.pathname.startsWith('/admin')) {
+  const isAdminRoute = location.hash.startsWith('#/admin');
+  console.log("DEBUG: user=", user, "location.pathname=", location.pathname, "location.hash=", location.hash, "isAdminRoute=", isAdminRoute);
+  
+  if (!user && !isAdminRoute) {
     return <LoginPage 
       onLogin={handleLogin} 
       onLoginWithCPF={handleLoginWithCPF}
