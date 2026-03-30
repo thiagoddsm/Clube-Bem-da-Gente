@@ -1,0 +1,178 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "Beneficiary profile including company and status.",
+      "type": "object",
+      "properties": {
+        "nome": { "type": "string", "description": "Full name" },
+        "email": { "type": "string", "format": "email", "description": "Email address" },
+        "matricula": { "type": "string", "description": "Registration number" },
+        "empresa": { "type": "string", "description": "Linked company" },
+        "cpf": { "type": "string", "description": "CPF of the user" },
+        "senha_criada": { "type": "boolean", "description": "Whether the user has created a password" },
+        "foto_url": { "type": "string", "format": "uri", "description": "Profile photo URL" },
+        "status": { "type": "string", "enum": ["ativo", "inativo"], "description": "Account status" },
+        "role": { "type": "string", "enum": ["admin", "user"], "description": "User role" },
+        "telefone": { "type": "string", "description": "Phone number" },
+        "favoritos": { "type": "array", "items": { "type": "string" }, "description": "List of favorite partner IDs" },
+        "adimplente": { "type": "boolean", "description": "Whether the user is up to date with payments" }
+      },
+      "required": ["nome", "email", "matricula", "empresa", "cpf", "senha_criada", "status"]
+    },
+    "PreRegistration": {
+      "title": "Pre-Registration",
+      "description": "Pre-enabled CPFs and names from spreadsheet.",
+      "type": "object",
+      "properties": {
+        "cpf": { "type": "string", "description": "CPF of the beneficiary" },
+        "nome": { "type": "string", "description": "Full name" },
+        "matricula": { "type": "string", "description": "Registration number" },
+        "empresa": { "type": "string", "description": "Linked company" }
+      },
+      "required": ["cpf", "nome", "matricula", "empresa"]
+    },
+    "Partner": {
+      "title": "Rede Credenciada (Link)",
+      "description": "Accredited network links.",
+      "type": "object",
+      "properties": {
+        "nome": { "type": "string", "description": "Link name" },
+        "categoria": { "type": "string", "description": "Category (e.g., Saúde, Lazer)" },
+        "link_whatsapp": { "type": "string", "format": "uri", "description": "Direct link" },
+        "foto_url": { "type": "string", "format": "uri", "description": "Logo URL" },
+        "endereco": { "type": "string", "description": "Full address" },
+        "tipo": { "type": "string", "enum": ["propria", "credenciada"], "description": "Network type" },
+        "especialidade": { "type": "string", "description": "Medical specialty" }
+      },
+      "required": ["nome", "categoria", "link_whatsapp", "endereco", "tipo", "especialidade"]
+    },
+    "Company": {
+      "title": "Empresa",
+      "description": "Company details and payment status.",
+      "type": "object",
+      "properties": {
+        "nome": { "type": "string", "description": "Company name" },
+        "adimplente": { "type": "boolean", "description": "Whether the company is up to date with payments" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Creation timestamp" }
+      },
+      "required": ["nome", "adimplente", "createdAt"]
+    },
+    "Appointment": {
+      "title": "Appointment",
+      "description": "Scheduled appointment with a partner.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "UID of the user" },
+        "userNome": { "type": "string", "description": "Name of the user" },
+        "partnerId": { "type": "string", "description": "ID of the partner" },
+        "partnerNome": { "type": "string", "description": "Name of the partner" },
+        "dataHora": { "type": "string", "format": "date-time", "description": "Scheduled date and time" },
+        "status": { "type": "string", "enum": ["pendente", "confirmado", "cancelado"], "description": "Appointment status" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Creation timestamp" }
+      },
+      "required": ["userId", "userNome", "partnerId", "partnerNome", "dataHora", "status", "createdAt"]
+    },
+    "UsageHistory": {
+      "title": "Usage History",
+      "description": "Log of app usage (consultations, telemedicine, discounts).",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "UID of the user" },
+        "tipo": { "type": "string", "enum": ["consulta", "telemedicina", "desconto", "exame", "outro"], "description": "Type of usage" },
+        "titulo": { "type": "string", "description": "Title of the activity" },
+        "descricao": { "type": "string", "description": "Description of the activity" },
+        "data": { "type": "string", "format": "date-time", "description": "Date of usage" },
+        "valor_original": { "type": "number", "description": "Original price" },
+        "valor_pago": { "type": "number", "description": "Price paid" }
+      },
+      "required": ["userId", "tipo", "titulo", "descricao", "data"]
+    },
+    "InsuranceInfo": {
+      "title": "Insurance Info",
+      "description": "Life insurance policy information.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "UID of the user" },
+        "plano": { "type": "string", "description": "Plan name" },
+        "cobertura": { "type": "number", "description": "Coverage amount" },
+        "status": { "type": "string", "enum": ["ativo", "pendente", "cancelado"], "description": "Policy status" },
+        "data_inicio": { "type": "string", "format": "date-time", "description": "Start date" },
+        "beneficiarios": { "type": "array", "items": { "type": "string" }, "description": "List of beneficiaries" }
+      },
+      "required": ["userId", "plano", "cobertura", "status", "data_inicio"]
+    },
+    "Sweepstake": {
+      "title": "Sweepstake",
+      "description": "Monthly sweepstake information.",
+      "type": "object",
+      "properties": {
+        "mes": { "type": "string", "description": "Month of the sweepstake" },
+        "ano": { "type": "number", "description": "Year of the sweepstake" },
+        "premio": { "type": "string", "description": "Prize description" },
+        "ganhador_nome": { "type": "string", "description": "Winner's name" },
+        "ganhador_matricula": { "type": "string", "description": "Winner's registration number" },
+        "data_sorteio": { "type": "string", "format": "date-time", "description": "Date of the draw" },
+        "status": { "type": "string", "enum": ["realizado", "agendado"], "description": "Sweepstake status" }
+      },
+      "required": ["mes", "ano", "premio", "data_sorteio", "status"]
+    },
+    "Config": {
+      "title": "System Configuration",
+      "description": "Dynamic lists for specialties, exams, and categories.",
+      "type": "object",
+      "properties": {
+        "especialidades": { "type": "array", "items": { "type": "string" } },
+        "exames": { "type": "array", "items": { "type": "string" } },
+        "categorias": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["especialidades", "exames", "categorias"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles indexed by UID."
+    },
+    "/pre_registrations/{cpf}": {
+      "schema": "PreRegistration",
+      "description": "Pre-enabled CPFs for first access."
+    },
+    "/parceiros/{partnerId}": {
+      "schema": "Partner",
+      "description": "List of partner clinics and services."
+    },
+    "/agendamentos/{appointmentId}": {
+      "schema": "Appointment",
+      "description": "Scheduled appointments."
+    },
+    "/chats/{chatId}": {
+      "schema": "ChatSession",
+      "description": "Support chat sessions."
+    },
+    "/chats/{chatId}/mensagens/{messageId}": {
+      "schema": "ChatMessage",
+      "description": "Messages within a chat session."
+    },
+    "/notificacoes/{notifId}": {
+      "schema": "AppNotification",
+      "description": "User notifications."
+    },
+    "/users/{userId}/historico_uso/{usageId}": {
+      "schema": "UsageHistory",
+      "description": "Log of app usage for a specific user."
+    },
+    "/users/{userId}/seguro/{insuranceId}": {
+      "schema": "InsuranceInfo",
+      "description": "Life insurance policy for a specific user."
+    },
+    "/sorteios/{sweepstakeId}": {
+      "schema": "Sweepstake",
+      "description": "Monthly sweepstakes."
+    },
+    "/config/{configId}": {
+      "schema": "Config",
+      "description": "System-wide configuration data."
+    }
+  }
+}

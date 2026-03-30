@@ -1,0 +1,63 @@
+{
+  "id": "bem-da-gente-app",
+  "name": "Bem da Gente",
+  "short_name": "Bem da Gente",
+  "description": "Clínica Popular e Cartão de Benefícios",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "background_color": "#ffffff",
+  "theme_color": "#10b981",
+  "orientation": "portrait",
+  "lang": "pt-BR",
+  "dir": "ltr",
+  "categories": ["health", "medical", "lifestyle"],
+  "iarc_rating_id": "e844a428-251f-45a8-9403-4f364027415e",
+  "launch_handler": {
+    "client_mode": "focus-existing"
+  },
+  "shortcuts": [
+    {
+      "name": "Dashboard",
+      "url": "/",
+      "description": "Acesse o painel principal"
+    },
+    {
+      "name": "Usuários",
+      "url": "/?tab=usuarios",
+      "description": "Gerencie seus usuários"
+    },
+    {
+      "name": "Parceiros",
+      "url": "/?tab=parceiros",
+      "description": "Veja a rede credenciada"
+    }
+  ],
+  "icons": [
+    {
+      "src": "https://firebasestorage.googleapis.com/v0/b/gen-lang-client-0141108959.firebasestorage.app/o/Design%20sem%20nome%20(4).png?alt=media&token=7a5ab994-b36a-4424-bc70-85c5f669a9e7",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://firebasestorage.googleapis.com/v0/b/gen-lang-client-0141108959.firebasestorage.app/o/Sem%20nome%20(512%20x%20512%20px)%20(1).png?alt=media&token=68e4b778-225f-4143-9ef8-18fe9c4903df",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "https://firebasestorage.googleapis.com/v0/b/gen-lang-client-0141108959.firebasestorage.app/o/Sem%20nome%20(512%20x%20512%20px)%20(1).png?alt=media&token=68e4b778-225f-4143-9ef8-18fe9c4903df",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "https://firebasestorage.googleapis.com/v0/b/gen-lang-client-0141108959.firebasestorage.app/o/Sem%20nome%20(512%20x%20512%20px)%20(1).png?alt=media&token=68e4b778-225f-4143-9ef8-18fe9c4903df",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ]
+}
