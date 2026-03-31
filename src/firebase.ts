@@ -11,6 +11,7 @@ const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app, firebaseConfig.firestoreDatabaseId);
 export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
+googleProvider.setCustomParameters({ prompt: 'select_account' });
 
 // Lazy Storage initialization to prevent crash if service is not provisioned
 let storageInstance: any = null;
@@ -138,8 +139,8 @@ export const registerWithCPF = async (cpf: string, pass: string, data: any, phon
         telefone: phone,
         data_nascimento: birthDate,
         senha_criada: true,
-        status: 'ativo',
-        role: 'user',
+        status: data.status || 'ativo',
+        role: data.role || 'user',
         createdAt: serverTimestamp()
       });
     } catch (err) {

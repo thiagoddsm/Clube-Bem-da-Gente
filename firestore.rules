@@ -69,7 +69,7 @@ service cloud.firestore {
              data.email is string && (isValidEmail(data.email) || data.email.matches("^[0-9]{11}@bemdagente\\.com\\.br$")) &&
              data.matricula is string && data.matricula.size() > 0 &&
              data.empresa is string && data.empresa.size() > 0 &&
-             data.cpf is string && data.cpf.matches("^[0-9]{3}\\.[0-9]{3}\\.[0-9]{3}-[0-9]{2}$") &&
+             data.cpf is string && (data.cpf == '' || data.cpf.matches("^[0-9]{3}\\.[0-9]{3}\\.[0-9]{3}-[0-9]{2}$")) &&
              data.senha_criada is bool &&
              data.status in ['ativo', 'pendente', 'bloqueado'] &&
              (!('role' in data) || data.role in ['admin', 'user']) &&
